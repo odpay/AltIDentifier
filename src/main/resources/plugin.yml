@@ -1,0 +1,8 @@
+name: AltIDentifier
+version: '${project.version}'
+main: net.odpay.altidentifier.AltIDentifier
+api-version: 1.19
+authors: [odpay]
+description: A server plugin useful for tracking and identifying possible alternative accounts of players
+website: https://github.com/odpay
+depend: [ProtocolLib]

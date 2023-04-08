@@ -1,0 +1,5 @@
+settings:
+  data-points:
+    ip: true
+    ping: true
+    client-settings: true

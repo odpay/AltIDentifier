@@ -1,0 +1,26 @@
+
+
+upon player join, a 'fingerprint' object is created and added to 'fingerprintPool'.
+upon player leave, their corresponding fingerprint is removed from the pool (pool len should always be 1:1 with current online players)
+
+
+
+'fingerprint' obj schema:
+    UUID uuid - account UUID
+    String name - account IGN
+    IP ip - player ip
+    Datetime startTime - datetime at obj initialisation (player join)
+    Datetime endTime - datetime when fingerprint is resolved (player leave) (empty until then)
+
+
+data points to track ideas:
+- IP address
+- average ping
+- settings packet (volume sliders etc.)
+- forge mod lists (FML server-side)
+- ^^above but for any other mods that offer data/request custom rules (lunar, badlion, labymod etc.)
+- average online times (find potential timezone ranges) (compare overlap with others (potential alts))
+- long shot: average modality or sentence complexity from chat messages/whispers (over a long period)
+- value ip-uniqueness if not resolved as possible VPN ip
+- potentially determine mouse polling rate and/or sensitivity based off of average variation in rotations
+- hotbar slot changes (scrolling vs binds)
