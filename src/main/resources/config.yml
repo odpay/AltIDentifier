@@ -2,4 +2,6 @@ settings:
   data-points:
     ip: true
     ping: true
+    brand: true
+    client-mods: true
     client-settings: true

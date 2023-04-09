@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.*;
+import org.bukkit.event.server.ServerListPingEvent;
 
 public class ConnectionHandler implements Listener {
     public ConnectionHandler(AltIDentifier plugin) {
@@ -17,8 +18,9 @@ public class ConnectionHandler implements Listener {
     @EventHandler
     public void onPlayerConnect(PlayerJoinEvent event) { // cannot fetch player client info here, as it hasn't been recieved yet and will just be defaults.
         Player player = event.getPlayer();
+        System.out.println(player.getListeningPluginChannels());
         AltIDentifier.manager.add(new Fingerprint(player.getUniqueId(), player.getName(), (AltIDentifier.config.getBoolean("settings.data-points.ip") ? player.getAddress().getAddress().getHostAddress() : null)));
-        AltIDentifier.manager.recordPing(player.getUniqueId(), player.getPing());
+//        AltIDentifier.manager.recordPing(player.getUniqueId(), player.getPing());
         System.out.println(AltIDentifier.manager.getAll().toString());
 //        Bukkit.getLogger().info("beamaaaed$$$ " + event.getPlayer().getAddress().toString());
 
@@ -28,17 +30,19 @@ public class ConnectionHandler implements Listener {
     @EventHandler
     public void onPlayerDisconnect(PlayerQuitEvent event) {
         Player player = event.getPlayer();
+        AltIDentifier.manager.recordPing(player.getUniqueId(), player.getPing()); // only time ping is recorded for now, can attatch to every notchian keepalive process but that can be easily spoofed (+ is unreliable)
         System.out.println(AltIDentifier.manager.get(player.getUniqueId()));
         AltIDentifier.manager.remove(player.getUniqueId());
         System.out.println(AltIDentifier.manager.getAll().toString());
 //        System.out.println("asdasdasdasd");
     }
 
-    @EventHandler
-    public void p(AsyncPlayerChatEvent event) {
-        Bukkit.getServer().broadcastMessage(String.valueOf(event.getPlayer().getPing()));
-        if (event.getMessage() == "f") {
-            Bukkit.getServer().broadcastMessage(AltIDentifier.manager.getAll().toString());
-        }
-    }
+
+//    @EventHandler
+//    public void p(AsyncPlayerChatEvent event) {
+//        Bukkit.getServer().broadcastMessage(String.valueOf(event.getPlayer().getPing()));
+//        if (event.getMessage() == "f") {
+//            Bukkit.getServer().broadcastMessage(AltIDentifier.manager.getAll().toString());
+//        }
+//    }
 }

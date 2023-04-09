@@ -23,6 +23,14 @@ public class FingerprintManager {
     public void recordPing(UUID uuid, int latencyMS) {
         fingerprintPool.get(uuid).recordPing(latencyMS);
     }
+
+    public void setBrand(UUID uuid, String brand) {
+        fingerprintPool.get(uuid).setBrand(brand);
+    }
+
+    public void regChannel(UUID uuid, String channel) {
+        fingerprintPool.get(uuid).regChannel(channel);
+    }
     public Fingerprint get(UUID uuid) {
         return fingerprintPool.get(uuid);
     }

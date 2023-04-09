@@ -3,6 +3,8 @@ package net.odpay.altidentifier;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import net.odpay.altidentifier.fingerprintUtil.FingerprintManager;
+import net.odpay.altidentifier.handlers.ChannelRegisterHandler;
+import net.odpay.altidentifier.handlers.PluginMessageListener;
 import net.odpay.altidentifier.handlers.ClientInfoHandler;
 import net.odpay.altidentifier.handlers.ConnectionHandler;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -11,6 +13,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.logging.Logger;
 
 public final class AltIDentifier extends JavaPlugin {
+    private static AltIDentifier instance;
     private static Logger logger;
     public ProtocolManager protocolManager;
 
@@ -19,6 +22,7 @@ public final class AltIDentifier extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        instance = this;
         logger = getLogger();
 
 
@@ -31,7 +35,13 @@ public final class AltIDentifier extends JavaPlugin {
         manager = new FingerprintManager();
 
         new ConnectionHandler(this);
+        if (config.getBoolean("settings.data-points.client-mods")) { new ChannelRegisterHandler(this); }
         if (config.getBoolean("settings.data-points.client-settings")) { protocolManager.addPacketListener(new ClientInfoHandler(this)); }
+
+        if (config.getBoolean("settings.data-points.brand")) {
+            getServer().getMessenger().registerIncomingPluginChannel(this, "minecraft:brand", new PluginMessageListener()); // >=1.13
+//            getServer().getMessenger().registerIncomingPluginChannel(this, "MC|Brand", new PluginMessageListener()); // <=1.12.2
+        }
         logger.info("AltIDentifier initialised!");
 
 
@@ -41,6 +51,10 @@ public final class AltIDentifier extends JavaPlugin {
     @Override
     public void onDisable() {
         logger.info("Stopping AltIDentifier!");
+    }
+
+    public static AltIDentifier getInstance() {
+        return instance;
     }
 
 
