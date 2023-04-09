@@ -2,6 +2,7 @@ package net.odpay.altidentifier;
 
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
+import net.odpay.altidentifier.db.Database;
 import net.odpay.altidentifier.fingerprintUtil.FingerprintManager;
 import net.odpay.altidentifier.handlers.ChannelRegisterHandler;
 import net.odpay.altidentifier.handlers.PluginMessageListener;
@@ -10,11 +11,13 @@ import net.odpay.altidentifier.handlers.ConnectionHandler;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import javax.xml.crypto.Data;
 import java.util.logging.Logger;
 
 public final class AltIDentifier extends JavaPlugin {
     private static AltIDentifier instance;
     private static Logger logger;
+    public Database db;
     public ProtocolManager protocolManager;
 
     public static FingerprintManager manager;
@@ -30,6 +33,8 @@ public final class AltIDentifier extends JavaPlugin {
         config.options().copyDefaults(true);
         saveConfig();
 //        saveDefaultConfig();
+
+        db = new Database(this);
 
         protocolManager = ProtocolLibrary.getProtocolManager();
         manager = new FingerprintManager();
