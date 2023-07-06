@@ -14,7 +14,7 @@
     <description>A server plugin useful for tracking and identifying possible alternative accounts of players
     </description>
     <properties>
-        <java.version>1.17</java.version>
+        <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <url>https://github.com/odpay</url>
